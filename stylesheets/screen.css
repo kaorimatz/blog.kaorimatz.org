@@ -37,9 +37,9 @@ h1 {
 }
 
 #container {
-  width: 768px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 768px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 #posts {
