@@ -137,11 +137,12 @@ h1 {
 }
 
 #footer {
+  font-family: 'Open Sans Condensed', sans-serif;
   color: #888;
 }
 #footer .links {
   float: left;
 }
-#footer #credit {
+#footer .credit {
   float: right;
 }
