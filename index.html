@@ -1,0 +1,11 @@
+---
+layout: default
+---
+
+<div id="posts">
+  <ul>
+    {% for post in site.posts %}
+    <li><a href="{{ post.url }}" title="{{ page.title }}">{{ post.title }}</a><time datetime="{{ post.date | date: '%Y-%m-%d'}}" pubdate="">{{ post.date | date: '%Y-%m-%d' }}</time></li>
+    {% endfor %}
+  </ul>
+</div>

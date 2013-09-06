@@ -1,0 +1,111 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
+
+@import "compass/css3";
+
+@import "compass/typography/vertical_rhythm";
+$base-font-size: 14px;
+$base-line-height: 21px;
+@include establish-baseline;
+
+@import "compass/typography/links";
+
+$base-color: #900;
+
+body {
+  color: #111;
+}
+
+a {
+  @include hover-link;
+  @include link-colors($base-color, $base-color, $base-color, $base-color, $base-color);
+}
+
+h1 {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#container {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#posts {
+  font-family: 'Open Sans Condensed', sans-serif;
+  ul {
+    $font-size: $base-font-size * 1.5;
+    @include adjust-font-size-to($font-size, 2);
+    @include rhythm(0, 0, 0, 0, $font-size);
+    padding-left: 0;
+  }
+  li {
+    list-style-type: none;
+    color: #444;
+  }
+  time {
+    float: right;
+  }
+}
+
+.post-head {
+  font-family: 'Open Sans Condensed', sans-serif;
+  h1 {
+    $font-size: $base-font-size * 1.5;
+    @include adjust-font-size-to($font-size, 1);
+    @include rhythm(0, 0, 0, 0, $font-size);
+  }
+}
+
+.post-content {
+  p {
+    $font-size: $base-font-size;
+    @include adjust-font-size-to($font-size, 1);
+    @include rhythm(1, 0, 0, 1, $font-size);
+  }
+  img {
+    padding: 3px;
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
+}
+
+.post-meta {
+  ul {
+    @include rhythm(1, 0, 0, 1);
+    padding-left: 0px;
+  }
+  li {
+    list-style-type: none;
+    color: #444;
+  }
+}
+
+.highlight {
+  border-top: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  padding-left: rhythm(1);
+  .kd, .k {
+    font-weight: bold;
+  }
+}
+
+#header {
+  h1 {
+    $font-size: $base-font-size * 3;
+    @include adjust-font-size-to($font-size, 3);
+    @include rhythm(0, 1, 1, 0, $font-size);
+    a {
+      text-decoration: none;
+      @include link-colors(#000, #000, #000, #000, #000);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#footer {
+  color: #888;
+  #credit {
+    float: right;
+  }
+}

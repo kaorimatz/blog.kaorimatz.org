@@ -1,0 +1,144 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700);
+* html {
+  font-size: 87.5%;
+}
+
+html {
+  font-size: 14px;
+  line-height: 1.5em;
+}
+
+body {
+  color: #111;
+}
+
+a {
+  text-decoration: none;
+  color: #990000;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:visited {
+  color: #990000;
+}
+a:focus {
+  color: #990000;
+}
+a:hover {
+  color: #990000;
+}
+a:active {
+  color: #990000;
+}
+
+h1 {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#container {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#posts {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+#posts ul {
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+  padding-left: 0;
+}
+#posts li {
+  list-style-type: none;
+  color: #444;
+}
+#posts time {
+  float: right;
+}
+
+.post-head {
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+.post-head h1 {
+  font-size: 1.5em;
+  line-height: 1em;
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+}
+
+.post-content p {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 1.5em;
+}
+.post-content img {
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.post-meta ul {
+  margin-top: 1.5em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 1.5em;
+  padding-left: 0px;
+}
+.post-meta li {
+  list-style-type: none;
+  color: #444;
+}
+
+.highlight {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 1.5em;
+}
+.highlight .kd, .highlight .k {
+  font-weight: bold;
+}
+
+#header h1 {
+  font-size: 3em;
+  line-height: 1.5em;
+  margin-top: 0em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-bottom: 0em;
+}
+#header h1 a {
+  text-decoration: none;
+  color: black;
+}
+#header h1 a:visited {
+  color: black;
+}
+#header h1 a:focus {
+  color: black;
+}
+#header h1 a:hover {
+  color: black;
+}
+#header h1 a:active {
+  color: black;
+}
+#header h1 a:hover {
+  text-decoration: none;
+}
+
+#footer {
+  color: #888;
+}
+#footer #credit {
+  float: right;
+}

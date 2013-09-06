@@ -1,0 +1,5 @@
+safe: true
+exclude: ['CNAME', 'config.rb', 'Gemfile', 'Gemfile.lock']
+lsi: false
+markdown: redcarpet
+title: blog.kaorimatz.org
