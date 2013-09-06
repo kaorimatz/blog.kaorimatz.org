@@ -139,6 +139,9 @@ h1 {
 #footer {
   color: #888;
 }
+#footer .links {
+  float: left;
+}
 #footer #credit {
   float: right;
 }
