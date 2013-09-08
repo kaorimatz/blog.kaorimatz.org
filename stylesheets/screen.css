@@ -86,13 +86,14 @@ code {
   padding-bottom: 0em;
   margin-bottom: 1.5em;
 }
+.post-content p code {
+  line-height: 0;
+}
 .post-content img {
   display: block;
   margin: 0 auto;
   max-width: 100%;
   height: auto;
-  padding: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .post-meta ul {
@@ -108,9 +109,20 @@ code {
 }
 
 .highlight {
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding-left: 1.5em;
+  border-top-style: solid;
+  border-top-width: 0.07143em;
+  padding-top: 0.67857em;
+  border-bottom-style: solid;
+  border-bottom-width: 0.07143em;
+  padding-bottom: 0.67857em;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.highlight pre {
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
 }
 .highlight .kd, .highlight .k {
   font-weight: bold;
@@ -146,6 +158,12 @@ code {
 
 #footer {
   font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 1.5em;
   color: #888;
 }
 #footer .links {

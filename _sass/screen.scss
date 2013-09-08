@@ -65,14 +65,15 @@ code {
     $font-size: $base-font-size;
     @include adjust-font-size-to($font-size, 1);
     @include rhythm(1, 0, 0, 1, $font-size);
+    code {
+      line-height: 0; // https://github.com/h5bp/html5-boilerplate/issues/656
+    }
   }
   img {
     display: block;
     margin: 0 auto;
     max-width: 100%;
     height: auto;
-    padding: 3px;
-    border: 1px solid rgba(0, 0, 0, .2);
   }
 }
 
@@ -88,9 +89,12 @@ code {
 }
 
 .highlight {
-  border-top: 1px solid rgba(0, 0, 0, .2);
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
   padding-left: rhythm(1);
+  @include horizontal-borders(1px, .5);
+  border-color: rgba(0, 0, 0, .2);
+  pre {
+    @include rhythm(0, 0, 0, 0);
+  }
   .kd, .k {
     font-weight: bold;
   }
@@ -113,6 +117,9 @@ code {
 
 #footer {
   font-family: 'Open Sans Condensed', sans-serif;
+  $font-size: $base-font-size;
+  @include adjust-font-size-to($font-size, 1);
+  @include rhythm(1, 0, 0, 1, $font-size);
   color: #888;
   .links {
     float: left;
