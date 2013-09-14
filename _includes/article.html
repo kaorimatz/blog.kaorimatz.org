@@ -9,7 +9,10 @@
   <footer>
     <div class="post-meta">
       <ul>
-        <li class="postdate">Created on <time datetime="{{ page.date | date: '%Y-%m-%d'}}">{{ page.date | date: '%Y-%m-%d' }}</time></li>
+        <li class="published-date">Published：<time datetime="{{ page.date | date: '%Y-%m-%d'}}">{{ page.date | date: '%Y-%m-%d' }}</time></li>
+        {% if page.updated %}
+          <li class="updated-date">Updated：<time datetime="{{ page.updated | date: '%Y-%m-%d'}}">{{ page.updated | date: '%Y-%m-%d' }}</time></li>
+        {% endif %}
         <li class="tags">
           Tags：{% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% unless forloop.last %}, {% endunless %}{% endfor %}
         </li>
