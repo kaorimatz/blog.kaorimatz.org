@@ -2,29 +2,30 @@
 layout: post
 title: SELinuxのAVCイベントをlibnotify経由で通知する
 tags: SELinux libnotify
+updated: 2013-09-14
 ---
 
 SELinux の audit イベントは auditd デーモンが起動していれば `/var/log/audit/audit.log` などに出力されます。
-例えば SELinux によって何らかのアクセスが拒否された場合、その情報は AVC イベントとしてこのログファイルに出力されます。
-そのため、プログラムの挙動が怪しい場合などに、このログファイルを確認することで SELinux の関与を調べることができます。
+例えば、何らかのアクセスが SELinux によって拒否された場合に AVC イベントとしてその情報はこのログファイルに出力されます。
+そのためプログラムの挙動が怪しい場合などにこのログファイルを確認することで SELinux の関与を調べることができます。
 また、問題の挙動を再現する方法が分かっていれば次のようなコマンドを同時に実行することで AVC イベントをリアルタイムで確認することもできます。
 
 ```console
 # tail -f /var/log/audit/audit.log | grep AVC
 ```
 
-SELinux に慣れている人であればシステムで何か問題が起きたときに、このように audit ログを確認して SELinux が原因になっているかどうかを調べると思います。
+SELinux に慣れている人はシステムで何か問題が起きたとき、このように audit ログを確認して SELinux が原因になっているかどうかを調べると思います。
 しかし、SELinux にあまり慣れていない私はこのプロセスをよく忘れます。
-また、SELinux が原因でプログラムが怪しい挙動をしていても、それに気付かないことがたまにあります。
-そのため、AVC イベントが発生したらすぐにそれを教えてもらいたいです。
+また、SELinux が原因でプログラムが怪しい挙動をしていてもそれに気付かないことがたまにあります。
+そのため、AVC イベントが発生したらすぐにそれを教えてもらえると嬉しいです。
 
-AVC イベントをデスクトップに通知してくれる機能を持った[SETroubleShoot](https://fedorahosted.org/setroubleshoot/) というプログラムがすでにあります。
+AVC イベントをデスクトップに通知してくれる機能を持った [SETroubleShoot](https://fedorahosted.org/setroubleshoot/) というプログラムが実はすでにあります。
 Fedora では `setroubleshoot` と `setroubleshoot-server` という2つのパッケージに分けて提供されており、前者は GUI でのみ必要なプログラムを提供し、後者はそれを除いたものを提供します。
 この中の `setroubleshoot` パッケージに含まれている `/usr/bin/seapplet` が AVC イベントを通知してくれるプログラムです。
-しかし、残念ながら `seapplet` はシステムトレイに駐在させる必要があるため、私のデスクトップ環境では動作させることができません。
+しかし、`seapplet` はシステムトレイに駐在させる必要があるため私のデスクトップ環境では残念ながら動作させることができません。
 
-AVC イベントの発生を知る手段として、`seapplet` は `setroubleshoot-server` パッケージに含まれている `setroubleshootd` という DBus サービスから AVC イベントの発生時にシグナルを受け取るという方法をとっています。
-そこで、このシグナルを受け取って libnotify 経由でデスクトップに通知すれば目的を達成できます。
+`seapplet` は AVC イベントの発生を知るために、`setroubleshoot-server` パッケージに含まれている `setroubleshootd` という DBus サービスから AVC イベントの発生を知らせるシグナルを受け取っています。
+そこで、このシグナルを受け取って libnotify 経由でデスクトップに通知すれば AVC イベントの発生をすぐに知ることができるようになります。
 
 
 ```bash
@@ -76,5 +77,5 @@ done
 
 ![SELinux security alert](/images/2013-09-06-selinux-avc-notification.png)
 
-動作には auditd デーモンが動作していることと、SETroubleShoot が必要です。
-あと、当然ですが通知デーモンが動作している必要があります。
+動作には、auditd デーモンが動作していることと SETroubleShoot がインストールされていることが必要です。
+あと当然ですが、通知デーモンが動作している必要があります。
