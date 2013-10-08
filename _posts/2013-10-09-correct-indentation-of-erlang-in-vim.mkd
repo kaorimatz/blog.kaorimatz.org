@@ -1,0 +1,53 @@
+---
+layout: post
+title: Vimで編集中のErlangのインデントを整える
+tags: Vim Erlang
+---
+
+Vim 7.4 には [vim-erlang-runtime](https://github.com/hcs42/vim-erlang-runtime) が同梱されているので、特にプラグインを入れなくても Erlang コードのシンタックスハイライトやインデントの面倒を見てくれます。
+ただし、一部のインデントは期待通りにならないため手動で整える必要があります。
+この手動で整える作業が面倒なので、Emacs の [erlang.el](http://www.erlang.org/doc/man/erlang.el.html) が提供するインデント機能を Vim から利用して整えるようにします。
+
+## erlang.el
+
+Erlang のインデントは erlang.el が提供するインデント機能を使うことが推奨されているらしく、[rebar](https://github.com/rebar/rebar) の[ドキュメント](https://github.com/rebar/rebar/blob/master/CONTRIBUTING.md) にも erlang.el の erlang-mode を使用してインデントすることが望ましいと書かれています。
+erlang.el は Erlang の配布物に同梱されているので [公式](http://www.erlang.org/download.html) などからダウンロードして Erlang をインストールした場合はすでにインストールされていると思います。
+ディストリビューションのパッケージからインストールした場合は、erlang.el が別のパッケージで提供されている可能性があります。
+Fedora の場合は本体の `erlang` パッケージとは別の `emacs-erlang` パッケージで提供されています。
+また、[MELPA](http://melpa.milkbox.net/#/erlang) に登録されているので `package.el` を使ってインストールすることもできます。
+
+## erlang.el のインデント機能を Vim から利用する
+
+下記のスクリプトを適当な名前で保存して、Vim の `equalprg` オプションにそのパスを設定します。
+`--directory` オプションには erlang.el のインストール先のディレクトリを渡す必要があります。
+公式からダウンロードして `~/local` にインストールした場合は `~/local/lib/erlang/lib/tools-*/emacs` を指定します。
+
+```bash
+#!/bin/bash
+
+emacs \
+  --batch \
+  --quick \
+  --directory ~/local/lib/erlang/lib/tools-*/emacs \
+  --insert <(cat) \
+  --eval "
+(progn
+  (require 'erlang-start)
+  (erlang-mode)
+  (erlang-indent-current-buffer)
+  (delete-trailing-whitespace)
+  (untabify (point-min) (point-max))
+  (princ (buffer-string))
+  )
+" 2> /dev/null
+```
+
+注意点として、erlang.el のインデントスタイルはタブ・スペース混在です。
+上記のスクリプトではインデントを整えたあとに、`untabify` を呼び出してタブをスペースに展開しています。
+デフォルトのインデントスタイルに従う場合は `untabify` の呼び出しを消してください。
+
+## 参考
+- Erlang -- Erlang mode for Emacs
+    - [http://www.erlang.org/doc/man/erlang.el.html](http://www.erlang.org/doc/man/erlang.el.html)
+- Use vim as editor but emacs as code formatter - Stack Overflow
+    - [http://stackoverflow.com/questions/15745031/use-vim-as-editor-but-emacs-as-code-formatter](http://stackoverflow.com/questions/15745031/use-vim-as-editor-but-emacs-as-code-formatter)
