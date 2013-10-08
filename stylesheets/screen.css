@@ -78,6 +78,15 @@ code {
   margin-bottom: 0em;
 }
 
+.post-content h2 {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+}
 .post-content p {
   font-size: 1em;
   line-height: 1.5em;
