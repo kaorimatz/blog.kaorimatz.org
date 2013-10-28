@@ -104,6 +104,21 @@ code {
   max-width: 100%;
   height: auto;
 }
+.post-content ul {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 1.5em;
+  padding-left: 3em;
+}
+.post-content ul ul {
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+}
 
 .post-meta ul {
   margin-top: 1.5em;
