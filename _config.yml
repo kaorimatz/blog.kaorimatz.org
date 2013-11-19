@@ -1,5 +1,7 @@
-safe: true
+description: blog.kaorimatz.org
 exclude: ['CNAME', 'config.rb', 'Gemfile', 'Gemfile.lock']
 lsi: false
 markdown: redcarpet
+safe: true
 title: blog.kaorimatz.org
+url: http://blog.kaorimatz.org
