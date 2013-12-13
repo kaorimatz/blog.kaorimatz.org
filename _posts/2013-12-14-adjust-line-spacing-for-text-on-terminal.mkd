@@ -1,0 +1,115 @@
+---
+layout: post
+title: ターミナル上のテキストの行送り幅を調節する
+date: 2013-12-14
+tags: Font Linux
+---
+
+ターミナル上のテキスト表示には、[M+ OUTLINE FONTS](http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/index.html) の M+ 1MN フォントにお世話になっています。
+とても読みすいフォントなのですが、ターミナル上のテキスト表示に使用する場合には行送り幅がもう少し狭いほうが個人的には好きです。
+そこで、フォントのメタデータの中にある行送り幅に関係するパラメータを変更して、テキストの行送り幅を調節する方法を書いてみます。
+
+## 行送り幅に関係するフォントのパラメータ
+
+行送り幅に関係するフォントのパラメータはいくつかあります。
+
+- OS/2.TypoAscender
+- OS/2.TypoDescender
+- OS/2.TypoLineGap
+- OS/2.winAscent
+- OS/2.winDescent
+- hhea.Ascender
+- hhea.Descender
+- hhea.LineGap
+
+このうちのどのパラメータが使われるかや、その解釈などは OS やアプリケーションなどによって異なるようです。
+とりあえず、M+1MN や [Adobe の Source Code Pro](https://github.com/adobe/source-code-pro) の設定値を眺めてみると、
+
+- `OS/2.TypoAscender - OS/2.TypoDescender = Font's UPM (units per em)`
+- `OS/2.TypoLineGap = 0`
+- `OS/2.winAscent = hhea.Ascender`
+- `OS/2.winDescent = -hhea.Descender`
+- `hhea.LineGap = 0`
+
+という感じで設定されているので、この関係を保ったままパラメータを適当にいじると、手元の Linux 上の GNOME Terminal と urxvt では、hhea.Ascender と hhea.Descender を変更すればテキストの行送り幅を変更できることが分かります。
+
+これらのパラメータは [Apple のドキュメント](https://developer.apple.com/fonts/TTRefMan/RM06/Chap6hhea.html)によるとそれぞれ、
+
+- hhea.Ascender：
+    - ascender (mean line より上の部分) が一番高いグリフの base line から ascender line までの距離
+- hhea.Descender：
+    - descender (base line より下の部分) が一番低いグリフの base line から descender line までの距離
+
+を表します。
+つまり、フォントの中の任意のグリフを表示するのに必要なスペースがこのパラメータから分かります。
+GNOME Terminal や urxvt での一行の高さはこのパラメータから決まるようです。
+
+## hhea.Ascenderとhhea.Descenderを調節する
+
+ascender や descender が長いグリフの中には自分があまり使わない文字 (たとえば U+00C2 の「Â」) も含まれているので、そういった文字を考えなければ hhea.Ascender や hhea.Descender を小さくすることができます。
+
+例えば、Basic Latin に含まれる文字がとりあえず表示できればよいと仮定してみます。
+まず、U+0000 から U+007F に含まれる文字のうち (1) ascender が一番高いグリフと (2) descender が一番低いグリフを探します。
+そして、base line から (1) の ascender line までの距離 (ymax) と (2) の descender line までの距離 (ymin) を調べます。
+これらの距離が、Basic Latin に含まれる文字を表示するために最低限必要なスペースになります。
+M+1MN (M+ TESTFLIGHT 057) でのこれらの値は次のような感じです。([スクリプト](https://gist.github.com/kaorimatz/7502763)で求めます)
+
+- M+1MN (Original)
+    - ymax：1075 (U+01D7)
+    - ymin：-320 (U+02F3)
+- M+1MN (Basic Latin Only)
+    - ymax：815 (U+0024)
+    - ymin：-230 (U+0067)
+
+この値をそのまま hhea.Ascender と hhea.Descender に設定すると GNOME Terminal や urxvt では行間が全くなくなって読みづらいため、少し余裕を持たせて
+
+- hhea.Ascender：890 (= 815 + 75)
+- hhea.Descender：-305 (= -230 - 75)
+
+などとします。
+
+## フォントのパラメータを変更する
+
+フォントのパラメータは FontForge を使って変更できます。
+Pythonのインタフェースが提供されているのでこれを使うと楽です。
+下のスクリプトは OS/2.winAscent、OS/2.winDescent、hhea.Ascender、hhea.Descender を変更した新しいフォントを生成します。
+
+```python
+#!/usr/bin/env python
+
+import sys
+import fontforge
+
+if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print('usage: {} <input-font> <output-font> <ascent> <descent>'.format(sys.argv[0]))
+    else:
+        font = fontforge.open(sys.argv[1])
+        font.os2_winascent = int(sys.argv[3])
+        font.os2_winascent_add = False
+        font.os2_windescent = -int(sys.argv[4])
+        font.os2_windescent_add = False
+        font.hhea_ascent = int(sys.argv[3])
+        font.hhea_ascent_add = False
+        font.hhea_descent = int(sys.argv[4])
+        font.hhea_descent_add = False
+        font.generate(sys.argv[2])
+        font.close()
+```
+
+このスクリプトを適当な名前 (/path/to/change-font-line-spacing.py) で保存して、
+
+```console
+$ chmod u+x /path/to/change-font-line-spacing.py
+$ /path/to/change-font-line-spacing.py \
+    ~/.local/share/fonts/mplus-1mn-medium.ttf \
+    ~/.local/share/fonts/mplus-1mn-medium.ttf \
+    890 -305
+$ fc-cache -fv
+```
+
+とすれば、指定したフォントの OS/2.winAscent、OS/2.winDescent、hhea.Ascender、hhea.Descender がそれぞれ 890、890、305、-305 に書き換わります。
+
+## 参考
+- Writing python scripts to change fonts in FontForge
+    - [http://fontforge.org/python.html](http://fontforge.org/python.html)
