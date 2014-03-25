@@ -5,7 +5,10 @@ layout: default
 <div id="posts">
   <ul>
     {% for post in site.posts %}
-    <li><a href="{{ post.url }}" title="{{ page.title }}">{{ post.title }}</a><time datetime="{{ post.date | date: '%Y-%m-%d'}}">{{ post.date | date: '%Y-%m-%d' }}</time></li>
+    <li>
+      <time datetime="{{ post.date | date: '%Y-%m-%d'}}">{{ post.date | date: '%Y-%m-%d' }}</time></br>
+      <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li>
     {% endfor %}
   </ul>
 </div>

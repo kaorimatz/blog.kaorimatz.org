@@ -50,20 +50,28 @@ code {
   font-family: 'Open Sans Condensed', sans-serif;
 }
 #posts ul {
-  font-size: 1.5em;
-  line-height: 2em;
   margin-top: 0em;
   padding-top: 0em;
   padding-bottom: 0em;
   margin-bottom: 0em;
   padding-left: 0;
 }
-#posts li {
+#posts ul li {
   list-style-type: none;
   color: #444;
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 1.5em;
 }
-#posts time {
-  float: right;
+#posts ul li a {
+  font-weight: bold;
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-top: 0em;
+  padding-top: 0em;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
 }
 
 .post-head {
