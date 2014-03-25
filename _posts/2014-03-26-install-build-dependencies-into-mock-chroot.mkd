@@ -1,0 +1,77 @@
+---
+layout: post
+title: 公式リポジトリに存在しないRPMに依存するパッケージをMockでビルドする
+tags: Linux
+---
+
+先日、個人的に作成して管理している Fedora 向けの RPM パッケージを公開するリポジトリを作りました。
+
+- リポジトリ：
+    - [http://packages.kaorimatz.org/fedora/](http://packages.kaorimatz.org/fedora/)
+- ソースコード：
+    - [https://github.com/kaorimatz/fedora-packages](https://github.com/kaorimatz/fedora-packages)
+
+リポジトリを公開するにあたっていくつか悩んだところがあり、この記事ではその中のひとつの、自前でビルドした RPM パッケージにビルド依存する別の RPM パッケージを Mock を使ってビルドする方法について書いてみます。
+
+## Mock
+
+[Mock](https://fedoraproject.org/wiki/Projects/Mock) は chroot 環境で RPM をビルドするためのツールです。
+Fedora のビルドシステムである [Koji](http://koji.fedoraproject.org/koji/) で使われており、Fedora が公式に提供しているパッケージは全て Mock を使ってビルドされていることになります。
+Mock を使う理由としては、
+
+1. クリーンな chroot 環境のもとでパッケージをビルドすることで、依存関係 (BuildRequires) の不備を洗い出すことができる
+2. 設定ファイルで chroot 環境の中身を簡単に切り替えることができる
+
+ことなどが挙げられると思います。
+2に関して、例えばあらかじめ用意されている設定 (fedora-20-x86\_64.cfg) を使って
+
+    mock -r fedora-20-x86_64 --rebuild <srpm>
+
+とすると、Fedora 20 (x86\_64) の chroot 環境が作られて、その中でパッケージをビルドしてくれます。同様に、
+    
+    mock -r epel-7-x86_64 --rebuild <srpm>
+
+とすれば EPEL 7 (x86\_64) の chroot 環境でパッケージをビルドしてくれます。
+
+
+## パッケージビルドの依存関係を解決する
+
+パッケージ A のビルドがパッケージ B に依存する場合、A をビルドする前に B を chroot 環境にインストールする必要があります。
+Mock の場合だと、chroot 環境で有効になっているリポジトリに依存パッケージが含まれていれば自動でインストールしてくれるので、B がそのようなリポジトリに含まれていればそのまま A をビルドできます。
+chroot 環境で有効にするリポジトリの指定は Mock の設定ファイルに記述します。
+
+Mock は Fedora や EPEL 向けの設定ファイルをあらかじめ用意してくれているので通常はこれをそのまま使うことができます。
+ただし、これらの設定ファイルを使用した場合に有効になるリポジトリは Fedora や CentOS などの公式リポジトリに限られるため、例えば B が自分でビルドしたパッケージであったりすると自動ではインストールできません。
+このようなケースで A を Mock を使ってビルドする方法は B が存在する場所によって異なります。
+
+**1. パッケージ B があるリポジトリに含まれている場合**
+
+この場合は、Mock の設定ファイルに B が存在しているリポジトリを有効にする記述を追加する必要があります。例えば B が myrepo というリポジトリに存在する場合
+
+    cp /etc/mock/fedora-20-x86_64.cfg /etc/mock/myrepo-fedora-20-x86_64.cfg
+
+として、myrepo-fedora-20-x86\_64.cfg の `config_opts['yum.conf']` に
+
+    [myrepo]
+    name=myrepo
+    baseurl=http://myrepo.example.com/path/to/rpms
+
+のような通常の repo ファイルに書く設定を追記します。あとは A をビルドする際にこの設定ファイルを指定すれば myrepo から B がインストールされます。
+
+    mock -r myrepo-fedora-20-x86_64 --rebuild <path-to-srpm-of-A>
+
+
+**2. パッケージ B がどのリポジトリにも含まれていない場合**
+
+この場合は、Mock のコマンドを通して chroot 環境に B を先にインストールしてから A をビルドする必要があります。
+
+    mock -r fedora-20-x86_64 --init
+    mock -r fedora-20-x86_64 --install <path-to-rpm-of-B>
+    mock -r fedora-20-x86_64 --rebuild --no-clean <path-to-srpm-of-A>
+
+A をビルドする際に `--no-clean` を指定しないと、B をインストールした chroot 環境がビルド前に一度削除されてしまうので必ず指定する必要があります。
+
+## 参考
+
+-  Using Mock to test package builds - FedoraProject
+    - [http://fedoraproject.org/wiki/Using\_Mock\_to\_test\_package\_builds](http://fedoraproject.org/wiki/Using_Mock_to_test_package_builds)
