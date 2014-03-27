@@ -72,6 +72,7 @@ code {
   padding-top: 0em;
   padding-bottom: 0em;
   margin-bottom: 0em;
+  display: block;
 }
 
 .post-head {
