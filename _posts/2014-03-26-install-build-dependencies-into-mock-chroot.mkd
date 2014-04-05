@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Mockにおけるビルド依存パッケージのインスール
+title: Mockにおけるビルド依存パッケージのインストール
 tags: Linux
-updated: 2013-03-27
+updated: 2014-04-05
 ---
 
 先日、個人的に作成して管理している Fedora 向けの RPM パッケージを公開するリポジトリを作りました。
