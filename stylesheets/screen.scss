@@ -26,16 +26,17 @@ h2 {
 
 h2 {
   $font-size: $base-font-size * 1.25;
-  font-size: $font-size;
-  line-height: $base-line-height * 1.5 / $font-size * 1em;
   margin-top: $base-line-height * 1.5 / $font-size * 1em;
   margin-bottom: 0;
+  font-size: $font-size;
+  line-height: $base-line-height * 1.5 / $font-size * 1em;
 }
 
 p {
-  line-height: $base-line-height / $base-font-size * 1em;
   margin-top: $base-line-height / $base-font-size * 1em;
   margin-bottom: 0;
+  line-height: $base-line-height / $base-font-size * 1em;
+
   code {
     line-height: 0; // https://github.com/h5bp/html5-boilerplate/issues/656
   }
@@ -45,9 +46,11 @@ ul,
 ol {
   margin-top: $base-line-height / $base-font-size * 1em;
   margin-bottom: $base-line-height / $base-font-size * 1em;
+
   li {
     line-height: $base-line-height / $base-font-size * 1em;
   }
+
   ul,
   ol {
     margin-top: 0;
@@ -56,8 +59,9 @@ ol {
 }
 
 a {
-  text-decoration: none;
   color: $link-color;
+  text-decoration: none;
+
   &:visited,
   &:focus,
   &:hover,
@@ -70,55 +74,60 @@ code {
   font-family: Consolas, Courier, monospace;
 }
 
-#container {
+.container {
   max-width: 36em;
   width: 90%;
   margin: 0 auto;
 }
 
-#posts {
+.post-list {
   font-family: 'Open Sans Condensed', sans-serif;
+
   ul {
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+
     li {
-      list-style-type: none;
-      color: #444;
       margin-top: $base-line-height / $base-font-size * 1em;
       margin-bottom: 0;
-      a {
-        $font-size: $base-font-size * 1.5;
-        font-weight: bold;
-        font-size: $font-size;
-        line-height: ($base-line-height * 2) / $font-size * 1em;
-        margin-top: 0;
-        margin-bottom: 0;
-        display: block;
-      }
+      color: #444;
+      list-style-type: none;
     }
+  }
+
+  a {
+    $font-size: $base-font-size * 1.5;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: $font-size;
+    line-height: ($base-line-height * 2) / $font-size * 1em;
   }
 }
 
 .post-head {
   margin-top: $base-line-height / $base-font-size * 1em;
   font-family: 'Open Sans Condensed', sans-serif;
+
   h1 {
     $font-size: $base-font-size * 1.5;
-    font-size: $font-size;
-    line-height: ($base-line-height * 2) / $font-size * 1em;
     margin-top: 0;
     margin-bottom: ($base-line-height * 2) / $font-size * 1em;
+    font-size: $font-size;
+    line-height: ($base-line-height * 2) / $font-size * 1em;
   }
 }
 
 .post-content {
   img {
     display: block;
-    margin: 0 auto;
     max-width: 100%;
     height: auto;
+    margin: 0 auto;
   }
+
   ul,
   ol {
     padding-left: ($base-line-height * 1) / $base-font-size * 1em;
@@ -128,68 +137,79 @@ code {
 .post-meta {
   ul {
     padding-left: 0;
+
     li {
-      list-style-type: none;
       color: #444;
+      list-style-type: none;
     }
   }
 }
 
 .highlight {
   margin-top: $base-line-height / $base-font-size * 1em;
-  padding-left: $base-line-height / $base-font-size * 1em;
   padding-top: $base-line-height * 0.75 / $base-font-size * 1em;
   padding-bottom: $base-line-height * 0.75 / $base-font-size * 1em;
+  padding-left: $base-line-height / $base-font-size * 1em;
   background-color: $code-background-color;
+
   pre {
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
+
     code {
       vertical-align: bottom;
     }
   }
-  .kd, .k {
+
+  .kd,
+  .k {
     font-weight: bold;
   }
 }
 
-#header {
+.site-header {
   h1 {
     $font-size: $base-font-size * 3;
-    font-size: $font-size;
-    line-height: ($base-line-height * 3) / $font-size * 1em;
     margin-top: $base-line-height / $font-size * 1em;
     margin-bottom: $base-line-height / $font-size * 1em;
-    a {
+    font-size: $font-size;
+    line-height: ($base-line-height * 3) / $font-size * 1em;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+
+    &:visited,
+    &:focus,
+    &:hover,
+    &:active {
       color: #000;
+    }
+
+    &:hover {
       text-decoration: none;
-      &:visited,
-      &:focus,
-      &:hover,
-      &:active {
-        color: #000;
-      }
-      &:hover {
-        text-decoration: none;
-      }
-      &:active,
-      &:focus {
-        outline: none;
-      }
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
     }
   }
 }
 
-#footer {
-  font-family: 'Open Sans Condensed', sans-serif;
+.site-footer {
   margin-top: $base-line-height / $base-font-size * 1em;
   margin-bottom: $base-line-height / $base-font-size * 1em;
+  font-family: 'Open Sans Condensed', sans-serif;
   color: #888;
+
   .links {
     float: left;
   }
+
   .credit {
     float: right;
   }

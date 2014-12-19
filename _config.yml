@@ -1,5 +1,5 @@
 description: blog.kaorimatz.org
-exclude: ['CNAME', 'Gemfile', 'Gemfile.lock', 'vendor']
+exclude: ['.scss-lint.yml', 'CNAME', 'Gemfile', 'Gemfile.lock', 'vendor']
 markdown: redcarpet
 safe: true
 title: blog.kaorimatz.org

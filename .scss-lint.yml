@@ -1,0 +1,5 @@
+linters:
+  LeadingZero:
+    enabled: false
+  PropertySortOrder:
+    enabled: false
