@@ -1,22 +1,20 @@
 <article>
-  <header class="post-head">
+  <header class="post-header">
     <time datetime="{{ page.date | date: '%Y-%m-%d'}}">{{ page.date | date: '%Y-%m-%d' }}</time>
     <h1 class="post-title">{% if index %}<a href="{{ page.url }}" title="{{ page.title }}">{{ page.title }}</a>{% else %}{{ page.title }}{% endif %}</h1>
   </header>
-  <div class="post-content">
+  <div class="post-body">
     {{ content }}
   </div>
-  <footer>
-    <div class="post-meta">
-      <ul>
-        <li class="published-date">Published：<time datetime="{{ page.date | date: '%Y-%m-%d'}}">{{ page.date | date: '%Y-%m-%d' }}</time></li>
-        {% if page.updated %}
-          <li class="updated-date">Updated：<time datetime="{{ page.updated | date: '%Y-%m-%d'}}">{{ page.updated | date: '%Y-%m-%d' }}</time></li>
-        {% endif %}
-        <li class="tags">
-          Tags：{% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% unless forloop.last %}, {% endunless %}{% endfor %}
-        </li>
-      </ul>
-    </div>
+  <footer class="post-footer">
+    <ul>
+      <li class="published-date">Published：<time datetime="{{ page.date | date: '%Y-%m-%d'}}">{{ page.date | date: '%Y-%m-%d' }}</time></li>
+      {% if page.updated %}
+      <li class="updated-date">Updated：<time datetime="{{ page.updated | date: '%Y-%m-%d'}}">{{ page.updated | date: '%Y-%m-%d' }}</time></li>
+      {% endif %}
+      <li class="tags">
+        Tags：{% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% unless forloop.last %}, {% endunless %}{% endfor %}
+      </li>
+    </ul>
   </footer>
 </article>

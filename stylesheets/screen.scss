@@ -107,7 +107,7 @@ code {
   }
 }
 
-.post-head {
+.post-header {
   margin-top: $base-line-height / $base-font-size * 1em;
   font-family: 'Open Sans Condensed', sans-serif;
 
@@ -120,7 +120,7 @@ code {
   }
 }
 
-.post-content {
+.post-body {
   img {
     display: block;
     max-width: 100%;
@@ -134,7 +134,7 @@ code {
   }
 }
 
-.post-meta {
+.post-footer {
   ul {
     padding-left: 0;
 
